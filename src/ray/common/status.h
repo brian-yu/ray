@@ -94,6 +94,7 @@ enum class StatusCode : char {
   UnexpectedSystemExit = 15,
   NotFound = 16,
   Disconnected = 17,
+  PendingRequiredData = 18,
   // object store status
   ObjectExists = 21,
   ObjectNotFound = 22,
@@ -179,6 +180,10 @@ class RAY_EXPORT Status {
     return Status(StatusCode::Disconnected, msg);
   }
 
+  static Status PendingRequiredData(const std::string &msg) {
+    return Status(StatusCode::PendingRequiredData, msg);
+  }
+
   static Status ObjectExists(const std::string &msg) {
     return Status(StatusCode::ObjectExists, msg);
   }
@@ -221,6 +226,7 @@ class RAY_EXPORT Status {
   }
   bool IsNotFound() const { return code() == StatusCode::NotFound; }
   bool IsDisconnected() const { return code() == StatusCode::Disconnected; }
+  bool IsPendingRequiredData() const { return code() == StatusCode::PendingRequiredData; }
   bool IsObjectExists() const { return code() == StatusCode::ObjectExists; }
   bool IsObjectNotFound() const { return code() == StatusCode::ObjectNotFound; }
   bool IsObjectAlreadySealed() const { return code() == StatusCode::ObjectAlreadySealed; }
